@@ -1,0 +1,6 @@
+tmp/*
+work/*
+Gemfile.lock
+log/*
+*.iml
+.idea/*
