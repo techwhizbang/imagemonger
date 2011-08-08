@@ -27,10 +27,7 @@ class ThumbnailServer < Sinatra::Base
     image_type = ext.split(".").last
     @scale_height = params[:height_by_width].split("x")[0].to_i
     @scale_width = params[:height_by_width].split("x")[1].to_i
-    puts "the param aspect ratio #{params[:aspect_ratio].split(".")[0]}"
     @aspect_ratio = SUPPORTED_ASPECT_RATIOS[params[:aspect_ratio].split(".")[0]] || 1
-    
-    puts "the height #{@scale_height}, the width #{@scale_width}, #{@aspect_ratio}"
     
     buffered_image = read_original_image(nil)
     assign_proper_scale(buffered_image)
@@ -39,14 +36,10 @@ class ThumbnailServer < Sinatra::Base
     aspect_height = calculate_height_aspect_window(resized_image, @aspect_ratio)
     aspect_width = calculate_width_aspect_window(resized_image, @aspect_ratio)
     
-    puts "the aspect height #{aspect_height}, the aspect width #{aspect_width}"
-    
     desired_aspect_window = java.awt.Rectangle.new(aspect_width, aspect_height)
     cropped_aspect_window = desired_aspect_window.intersection(java.awt.Rectangle.new(resized_image.get_width, resized_image.get_height))
     
     # for now just assume start at 0,0 for the x,y coordinates...
-    puts "the cropped aspect x coor #{cropped_aspect_window.get_x}"
-    puts "the cropped aspect y coor #{cropped_aspect_window.get_y}"
     resized_cropped_image = resized_image.get_subimage(cropped_aspect_window.get_x, cropped_aspect_window.get_y, cropped_aspect_window.width, cropped_aspect_window.height) 
     response.headers['Content-Type'] = "image/#{image_type}"
     response.write(buffered_image_to_string(resized_cropped_image, image_type))    
@@ -92,7 +85,6 @@ class ThumbnailServer < Sinatra::Base
 
   def read_original_image(path)
     image_path = File.expand_path(File.dirname(__FILE__) + "/../images/snow-leopard-500.jpg")
-    puts "the image path #{image_path}"
     ImageIO.read(java.io.File.new(image_path))
   end
 
