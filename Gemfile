@@ -5,7 +5,9 @@ platforms :jruby do
 
   group :development, :test do
     gem 'warbler', '1.3.1'
-    gem 'trinidad'
+    gem 'trinidad', '~> 1.2.3'
+	gem 'rack-test', '0.6.1'
+	gem 'rspec', '~> 2.6.0'
   end
 
 end

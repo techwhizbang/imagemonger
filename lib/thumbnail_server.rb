@@ -3,26 +3,26 @@ import java.awt.image.BufferedImage
 import java.awt.RenderingHints
 import java.awt.AlphaComposite
 
-class ImageServer < Sinatra::Base
+class ThumbnailServer < Sinatra::Base
 
-  get "/images/:height/:width", :provides => ['jpg', 'jpeg', 'png', 'gif'] do |path, ext|
+  get "/thumbnails/:height/:width" do |path, ext|
     image_type = ext.split(".").last
     buffered_image = read_original_image(nil)
     @scale_height = params[:height].to_i
     @scale_width = params[:width].to_i
-
+    
     assign_proper_scale(buffered_image)
     resized_image = resize(buffered_image)
-
+    
     byte_array_stream = java.io.ByteArrayOutputStream.new
     ImageIO.write(resized_image, image_type, byte_array_stream)
     image_byte_array = byte_array_stream.to_byte_array
-
+    
     # Memory! => close everything and be sure to not let anything linger longer than necessary
     byte_array_stream.close
     buffered_image = nil
     resized_image = nil
-
+    
     response.headers['Content-Type'] = "image/#{image_type}"
     response.write(String.from_java_bytes(image_byte_array))
   end
@@ -39,7 +39,9 @@ class ImageServer < Sinatra::Base
   end
 
   def read_original_image(path)
-    ImageIO.read(java.io.File.new("images/snow-leopard-500.jpg"))
+    image_path = File.expand_path(File.dirname(__FILE__) + "/../images/snow-leopard-500.jpg")
+    puts "the image path #{image_path}"
+    ImageIO.read(java.io.File.new(image_path))
   end
 
   def aspect_ratio(buffered_image)
