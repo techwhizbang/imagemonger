@@ -1,0 +1,12 @@
+development:
+  adapter: jdbc
+  url: jdbc:postgresql://localhost/images_development
+  pool: 5
+  timeout: 5
+  user: default
+test:
+  adapter: jdbc
+  url: jdbc:postgresql://localhost/images_test
+  pool: 5
+  timeout: 5
+  user: default

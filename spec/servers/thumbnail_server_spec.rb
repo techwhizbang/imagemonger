@@ -6,8 +6,8 @@ describe(ThumbnailServer) do
     ThumbnailServer.new
   end
   
-  it 'should respond to the "/thumbnails" path with height and width' do
-    get "/thumbnails/200/200.jpg"
+  it 'should respond to the "/thumbnail" path with specified height,width,aspect ratio, and id' do
+    get "/thumbnail/200x200/1x1/12.jpg"
     last_response.ok?.should be_true
   end
   

@@ -8,26 +8,12 @@ class ThumbnailServer < Sinatra::Base
   SUPPORTED_ASPECT_RATIOS = {"16x9" => ((16.to_f)/9), "5x3" => ((5.to_f)/3), 
                              "3x2" => ((3.to_f)/2), "4x3" => ((4.to_f)/3), 
                              "3x4" => ((3.to_f)/4), "1x1" => 1}.freeze
-
-  get "/thumbnails/:height/:width" do |path, ext|
-    image_type = ext.split(".").last
-    buffered_image = read_original_image(nil)
-    @scale_height = params[:height].to_i
-    @scale_width = params[:width].to_i
-    
-    assign_proper_scale(buffered_image)
-    resized_image = resize(buffered_image)
-    
-    response.headers['Content-Type'] = "image/#{image_type}"
-    response.write(buffered_image_to_string(resized_image, image_type))
-  end
   
-  # Format /thumbnails/200x200/3x2.jpg
-  get "/thumbnails-aspect/:height_by_width/:aspect_ratio" do |path, ext|
-    image_type = ext.split(".").last
-    @scale_height = params[:height_by_width].split("x")[0].to_i
-    @scale_width = params[:height_by_width].split("x")[1].to_i
-    @aspect_ratio = SUPPORTED_ASPECT_RATIOS[params[:aspect_ratio].split(".")[0]] || 1
+  # Format /thumbnail/200x200/3x2/125.jpg
+  get %r{/thumbnail/(\d+x\d+)/(\d+x\d+)/(\d+)\.(jpg|png|jpeg|gif)} do |width_by_height, aspect_ratio, id, image_type|
+    @scale_height = width_by_height.split("x")[1].to_i
+    @scale_width = width_by_height.split("x")[0].to_i
+    @aspect_ratio = SUPPORTED_ASPECT_RATIOS[aspect_ratio] || 1
     
     buffered_image = read_original_image(nil)
     assign_proper_scale(buffered_image)
@@ -45,9 +31,8 @@ class ThumbnailServer < Sinatra::Base
     response.write(buffered_image_to_string(resized_cropped_image, image_type))    
   end
   
-  # Format /full/3x2
-  get "/full/:aspectRatio" do |path, ext|
-    image_type = ext.split(".").last
+  # Format /full/125.jpg
+  get %r{/full/(\d+)\.(jpg|png|jpeg|gif)} do |id, image_type|
 
   end
 
@@ -84,7 +69,7 @@ class ThumbnailServer < Sinatra::Base
   end
 
   def read_original_image(path)
-    image_path = File.expand_path(File.dirname(__FILE__) + "/../images/snow-leopard-500.jpg")
+    image_path = File.expand_path(File.dirname(__FILE__) + "/../../images/snow-leopard-500.jpg")
     ImageIO.read(java.io.File.new(image_path))
   end
 
