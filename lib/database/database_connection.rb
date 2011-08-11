@@ -1,6 +1,6 @@
 class DatabaseConnection
   
-  def self.connection(environment = "development")
+  def self.connect(environment = "development")
     @@db_connection ||= Sequel.connect(:adapter=> DatabaseConfiguration.adapter, 
                                        :database => DatabaseConfiguration.url, 
                                        :user=> DatabaseConfiguration.user, 
