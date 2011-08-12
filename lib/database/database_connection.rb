@@ -7,6 +7,7 @@ class DatabaseConnection
                                        :password=> DatabaseConfiguration.password,
                                        :pool_timeout => DatabaseConfiguration.timeout,
                                        :max_connections => DatabaseConfiguration.pool)
+ 
   end
   
 

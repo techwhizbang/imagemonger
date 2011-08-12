@@ -33,7 +33,9 @@ class ThumbnailServer < Sinatra::Base
   
   # Format /full/125.jpg
   get %r{/full/(\d+)\.(jpg|png|jpeg|gif)} do |id, image_type|
-
+    image_path = File.expand_path(File.dirname(__FILE__) + "/../../images/snow-leopard-500.jpg")
+    response.headers['Content-Type'] = "image/#{image_type}"
+    response.write(ImageIOUtils.to_s(ImageIOUtils.to_byte_array(image_path)))
   end
 
   private
