@@ -2,7 +2,11 @@ require 'rubygems'
 require 'rspec'
 require 'rspec/autorun'
 require 'rack/test'
+
+ENV['RACK_ENV'] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../boot.rb")
+
+# TODO: Waiting for the Sequel support to become available
 # require 'database_cleaner'
 
 RSpec.configure do |conf|
@@ -14,13 +18,14 @@ RSpec.configure do |conf|
   #   DatabaseCleaner.clean_with(:truncation)
   # end
   # 
-  # conf.before(:each) do  
-  #   DatabaseCleaner.start
-  # end
-  #   
-  # conf.after(:each) do
-  #   DatabaseCleaner.clean
-  # end
-
+  conf.before(:each) do  
+    #DatabaseCleaner.start
+    ImageBinary.dataset.destroy
+  end
+   
+  conf.after(:each) do
+    #DatabaseCleaner.clean
+  end
+  
 end
 
