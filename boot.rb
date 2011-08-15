@@ -14,4 +14,4 @@ Dir.glob(File.expand_path(File.dirname(__FILE__) + "/lib/database/*.rb")).each {
 DatabaseConnection.connect(ENV['RACK_ENV'])
 
 Dir.glob(File.expand_path(File.dirname(__FILE__) + "/lib/models/*.rb")).each { |f| require f }
-Dir.glob(File.expand_path(File.dirname(__FILE__) + "/lib/servers/*.rb")).each { |f| require f }
+Dir.glob(File.expand_path(File.dirname(__FILE__) + "/lib/controllers/*.rb")).each { |f| require f }
