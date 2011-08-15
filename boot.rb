@@ -5,6 +5,7 @@ Bundler.setup
 require 'sinatra'
 require 'sequel'
 require 'jdbc/postgres'
+require 'json'
 
 require File.expand_path(File.dirname(__FILE__) + "/lib/commons-codec-1.5.jar")
 require File.expand_path(File.dirname(__FILE__) + "/lib/commons-io-2.0.1.jar")
