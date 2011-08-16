@@ -2,6 +2,7 @@ require 'rubygems'
 require 'rspec'
 require 'rspec/autorun'
 require 'rack/test'
+require 'net/http/post/multipart'
 
 ENV['RACK_ENV'] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../boot.rb")

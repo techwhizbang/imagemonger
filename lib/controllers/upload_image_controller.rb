@@ -13,7 +13,10 @@ class UploadImageController < Sinatra::Base
                                        :mime_type => params["image_file"][:type] )
     image_binary.image_attribute = ImageAttribute.new( :caption => params["image_caption"], :description => params["image_description"] )
     image_binary.save
-    redirect to("/new")
+    content_type :json
+    { :status => 200, :image => {:id => image_binary.id, 
+                                 :caption => image_binary.image_attribute.caption, 
+                                 :description => image_binary.image_attribute.description}}.to_json
   end
   
 end

@@ -4,7 +4,7 @@ require 'tempfile'
 describe(ImageIOUtils) do
   
   before do
-    @image_path = File.expand_path(File.dirname(__FILE__) + "/fixtures/snow-leopard-500.jpg")
+    @image_path = File.expand_path(File.dirname(__FILE__) + "/../fixtures/snow-leopard-500.jpg")
     @java_file = java.io.File.new(@image_path)
   end
   

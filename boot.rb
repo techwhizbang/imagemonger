@@ -16,3 +16,5 @@ DatabaseConnection.connect(ENV['RACK_ENV'])
 
 Dir.glob(File.expand_path(File.dirname(__FILE__) + "/lib/models/*.rb")).each { |f| require f }
 Dir.glob(File.expand_path(File.dirname(__FILE__) + "/lib/controllers/*.rb")).each { |f| require f }
+
+Sequel::Model.plugin :json_serializer

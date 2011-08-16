@@ -11,7 +11,8 @@ platforms :jruby do
     gem 'trinidad', '~> 1.2.3'
 	gem 'rack-test', '0.6.1'
 	gem 'rspec', '~> 2.6.0'
-	gem "database_cleaner", "~> 0.6.7"
+	#gem "database_cleaner", "~> 0.6.7"
+	gem "multipart-post", "~> 1.1.3"
   end
 
 end
